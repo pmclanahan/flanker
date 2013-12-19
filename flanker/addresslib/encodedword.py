@@ -1,17 +1,19 @@
 # coding:utf-8
-import logging, regex as re
+import logging
+import re
 
 import email.quoprimime
 import email.base64mime
 
 from base64 import b64encode
 
-from flanker.mime.message import charsets, errors
+from flanker.addresslib import charsets, errors
 
 log = logging.getLogger(__name__)
 
 #deal with unfolding
 foldingWhiteSpace = re.compile(r"(\n\r?|\r\n?)(\s*)")
+
 
 def unfold(value):
     """
@@ -115,6 +117,3 @@ def decode_part(charset, encoding, value):
     else:
         raise errors.DecodingError(
             "Unknown encoding: {0}".format(encoding))
-
-
-

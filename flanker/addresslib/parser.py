@@ -76,8 +76,7 @@ from flanker.addresslib.tokenizer import DOT_ATOM
 from flanker.addresslib.tokenizer import QSTRING
 from flanker.addresslib.tokenizer import URL
 
-from flanker.mime.message.headers.encoding import encode_string
-
+from flanker.utils import encode_string
 from flanker.utils import is_pure_ascii
 from flanker.utils import contains_control_chars
 from flanker.utils import cleanup_display_name

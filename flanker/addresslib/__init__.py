@@ -11,8 +11,8 @@ set_dns_lookup and set_mx_cache methods. For more details, see the User Manual.
 '''
 import re
 
-from flanker.addresslib.drivers.redis_driver import RedisCache
 from flanker.addresslib.drivers.dns_lookup import DNSLookup
+from flanker.addresslib.drivers.memory_driver import DictCache
 
 from flanker.addresslib.plugins import yahoo
 from flanker.addresslib.plugins import aol
@@ -22,7 +22,7 @@ from flanker.addresslib.plugins import hotmail
 from flanker.addresslib.plugins import google
 
 
-mx_cache = RedisCache()
+mx_cache = DictCache(1000, 86400 * 3)  # 1000 entries, 3 days
 dns_lookup = DNSLookup()
 
 YAHOO_PATTERN = re.compile(r'''.*\.yahoodns\.net$''')

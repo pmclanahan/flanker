@@ -1,13 +1,24 @@
 # coding:utf-8
 import re
+from email.header import Header
 import chardet
 
 from functools import wraps
-from flanker.mime.message import errors
+from flanker.addresslib import errors
 
 '''
 Utility functions and classes used by flanker.
 '''
+
+
+def encode_string(name, value):
+    try:
+        return Header(
+            value.encode("ascii"), "ascii", header_name=name).encode(splitchars=' ;,')
+    except UnicodeEncodeError:
+        return Header(
+            value.encode("utf-8"), "utf-8", header_name=name).encode(splitchars=' ;,')
+
 
 def _guess_and_convert(value):
     charset = chardet.detect(value)
@@ -20,6 +31,7 @@ def _guess_and_convert(value):
         return value
     except (UnicodeError, LookupError):
         raise errors.DecodingError(str(e))
+
 
 def _make_unicode(value, charset=None):
     if isinstance(value, unicode):
@@ -37,9 +49,11 @@ def _make_unicode(value, charset=None):
 
     return value
 
+
 def to_unicode(value, charset=None):
     value = _make_unicode(value, charset)
     return unicode(value.encode("utf-8", "strict"), "utf-8", 'strict')
+
 
 def to_utf8(value, charset=None):
     '''

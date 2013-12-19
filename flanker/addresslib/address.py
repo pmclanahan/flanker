@@ -42,8 +42,8 @@ from email.header import Header
 from email.utils import formataddr
 from flanker.utils import is_pure_ascii
 from flanker.utils import metrics_wrapper
-from flanker.mime.message.headers.encoding import encode_string
-from flanker.mime.message.headers.encodedword import mime_to_unicode
+from flanker.utils import encode_string
+from flanker.addresslib.encodedword import mime_to_unicode
 from urlparse import urlparse
 
 @metrics_wrapper()

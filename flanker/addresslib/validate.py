@@ -34,7 +34,6 @@ Public Functions in flanker.addresslib.validate module:
 '''
 
 import re
-import redis
 import socket
 import time
 import flanker.addresslib
@@ -157,21 +156,22 @@ def mail_exchanger_lookup(domain, metrics=False):
 def lookup_exchanger_in_cache(domain):
     '''
     Uses a cache to store the results of the mail exchanger lookup to speed
-    up lookup times. The default is redis, but this can be overidden by your
-    own cache as long as it conforms to the same interface as that of a dict.
-    See the implimentation of the redis cache in the flanker.addresslib.driver
-    package for more details if you wish to implement your own cache.
+    up lookup times. The default is in memory with expiringdict, but this can
+    be overidden by your own cache as long as it conforms to the same interface
+    as that of a dict. See the implimentation of the redis cache in the
+    flanker.addresslib.driver package for more details if you wish to implement
+    your own cache.
     '''
     mx_cache = flanker.addresslib.mx_cache
 
     lookup = mx_cache[domain]
     if lookup is None:
-        return (False, None)
+        return False, None
 
-    if lookup == 'False':
-        return (True, None)
+    if lookup is False:
+        return True, None
     else:
-        return (True, lookup)
+        return True, lookup
 
 
 def lookup_domain(domain):
